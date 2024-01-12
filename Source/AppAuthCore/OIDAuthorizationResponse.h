@@ -123,6 +123,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable OIDTokenRequest *)tokenExchangeRequestWithAdditionalParameters:
     (nullable NSDictionary<NSString *, NSString *> *)additionalParameters;
 
+/*! @brief Creates a token request suitable for exchanging an authorization code for an access
+        token.
+    @param authorizationEndpoint Authorization endpoint used for the token request.
+    @param additionalParameters Additional parameters for the token request.
+    @return A @c OIDTokenRequest suitable for exchanging an authorization code for an access
+        token.
+    @see https://tools.ietf.org/html/rfc6749#section-4.1.3
+ */
+- (OIDTokenRequest *)tokenExchangeRequestFromAuthorizationEndpoint:(NSURL *)authorizationEndpoint
+                                              additionalParameters:(NSDictionary<NSString *, NSString *> *)additionalParameters;
+
 @end
 
 NS_ASSUME_NONNULL_END
