@@ -217,13 +217,15 @@ static NSString *const kTokenExchangeRequestException =
                 format:kTokenExchangeRequestException];
   }
 
-  OIDServiceConfiguration *originalConfig = _request.configuration;
-  OIDServiceConfiguration *requestConfig;
-  requestConfig = [[OIDServiceConfiguration alloc] initWithAuthorizationEndpoint:authorizationEndpoint
-                                                                   tokenEndpoint:originalConfig.tokenEndpoint
-                                                                          issuer:originalConfig.issuer
-                                                            registrationEndpoint:originalConfig.registrationEndpoint
-                                                              endSessionEndpoint:originalConfig.endSessionEndpoint];
+  OIDServiceConfiguration *requestConfig = _request.configuration;
+  if (!authorizationEndpoint) {
+    OIDServiceConfiguration *originalConfig = _request.configuration;
+    requestConfig = [[OIDServiceConfiguration alloc] initWithAuthorizationEndpoint:authorizationEndpoint
+                                                                     tokenEndpoint:originalConfig.tokenEndpoint
+                                                                            issuer:originalConfig.issuer
+                                                              registrationEndpoint:originalConfig.registrationEndpoint
+                                                                endSessionEndpoint:originalConfig.endSessionEndpoint];
+  }
 
   return [[OIDTokenRequest alloc] initWithConfiguration:requestConfig
                                               grantType:OIDGrantTypeAuthorizationCode

@@ -131,8 +131,8 @@ NS_ASSUME_NONNULL_BEGIN
         token.
     @see https://tools.ietf.org/html/rfc6749#section-4.1.3
  */
-- (OIDTokenRequest *)tokenExchangeRequestFromAuthorizationEndpoint:(NSURL *)authorizationEndpoint
-                                              additionalParameters:(NSDictionary<NSString *, NSString *> *)additionalParameters;
+- (nullable OIDTokenRequest *)tokenExchangeRequestFromAuthorizationEndpoint:(nullable NSURL *)authorizationEndpoint
+                                              additionalParameters:(nullable NSDictionary<NSString *, NSString *> *)additionalParameters;
 
 @end
 
