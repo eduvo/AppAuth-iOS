@@ -208,7 +208,7 @@ static NSString *const kTokenExchangeRequestException =
                                    additionalParameters:additionalParameters];
 }
 
-- (OIDTokenRequest *)tokenExchangeRequestFromAuthorizationEndpoint:(NSURL *)authorizationEndpoint
+- (OIDTokenRequest *)tokenExchangeRequestFromTokenEndpoint:(NSURL *)tokenEndpoint
                                               additionalParameters:(NSDictionary<NSString *, NSString *> *)additionalParameters {
   // TODO: add a unit test to confirm exception is thrown when expected and the request is created
   //       with the correct parameters.
@@ -218,10 +218,10 @@ static NSString *const kTokenExchangeRequestException =
   }
 
   OIDServiceConfiguration *requestConfig = _request.configuration;
-  if (!authorizationEndpoint) {
+  if (!tokenEndpoint) {
     OIDServiceConfiguration *originalConfig = _request.configuration;
-    requestConfig = [[OIDServiceConfiguration alloc] initWithAuthorizationEndpoint:authorizationEndpoint
-                                                                     tokenEndpoint:originalConfig.tokenEndpoint
+    requestConfig = [[OIDServiceConfiguration alloc] initWithAuthorizationEndpoint:originalConfig.authorizationEndpoint
+                                                                     tokenEndpoint:tokenEndpoint
                                                                             issuer:originalConfig.issuer
                                                               registrationEndpoint:originalConfig.registrationEndpoint
                                                                 endSessionEndpoint:originalConfig.endSessionEndpoint];
