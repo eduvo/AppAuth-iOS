@@ -18,6 +18,7 @@
 
 #import "OIDAuthorizationResponse.h"
 
+#import "OIDServiceConfiguration.h"
 #import "OIDAuthorizationRequest.h"
 #import "OIDDefines.h"
 #import "OIDError.h"
@@ -196,6 +197,35 @@ static NSString *const kTokenExchangeRequestException =
                 format:kTokenExchangeRequestException];
   }
   return [[OIDTokenRequest alloc] initWithConfiguration:_request.configuration
+                                              grantType:OIDGrantTypeAuthorizationCode
+                                      authorizationCode:_authorizationCode
+                                            redirectURL:_request.redirectURL
+                                               clientID:_request.clientID
+                                           clientSecret:_request.clientSecret
+                                                  scope:nil
+                                           refreshToken:nil
+                                           codeVerifier:_request.codeVerifier
+                                   additionalParameters:additionalParameters];
+}
+
+- (OIDTokenRequest *)tokenExchangeRequestFromAuthorizationEndpoint:(NSURL *)authorizationEndpoint
+                                              additionalParameters:(NSDictionary<NSString *, NSString *> *)additionalParameters {
+  // TODO: add a unit test to confirm exception is thrown when expected and the request is created
+  //       with the correct parameters.
+  if (!_authorizationCode) {
+    [NSException raise:kTokenExchangeRequestException
+                format:kTokenExchangeRequestException];
+  }
+
+  OIDServiceConfiguration *originalConfig = _request.configuration;
+  OIDServiceConfiguration *requestConfig;
+  requestConfig = [[OIDServiceConfiguration alloc] initWithAuthorizationEndpoint:authorizationEndpoint
+                                                                   tokenEndpoint:originalConfig.tokenEndpoint
+                                                                          issuer:originalConfig.issuer
+                                                            registrationEndpoint:originalConfig.registrationEndpoint
+                                                              endSessionEndpoint:originalConfig.endSessionEndpoint];
+
+  return [[OIDTokenRequest alloc] initWithConfiguration:requestConfig
                                               grantType:OIDGrantTypeAuthorizationCode
                                       authorizationCode:_authorizationCode
                                             redirectURL:_request.redirectURL
