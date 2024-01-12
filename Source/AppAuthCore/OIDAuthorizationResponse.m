@@ -218,7 +218,7 @@ static NSString *const kTokenExchangeRequestException =
   }
 
   OIDServiceConfiguration *requestConfig = _request.configuration;
-  if (!tokenEndpoint) {
+  if (tokenEndpoint) {
     OIDServiceConfiguration *originalConfig = _request.configuration;
     requestConfig = [[OIDServiceConfiguration alloc] initWithAuthorizationEndpoint:originalConfig.authorizationEndpoint
                                                                      tokenEndpoint:tokenEndpoint
